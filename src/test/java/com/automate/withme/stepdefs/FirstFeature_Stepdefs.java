@@ -3,6 +3,7 @@ package com.automate.withme.stepdefs;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -85,15 +87,19 @@ public class FirstFeature_Stepdefs {
 	
 	@Given ("^User lauches the App$")
 	public void User_lauches_the_App() throws InterruptedException{
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--remote-allow-origins=*");
 		
+
 		//Driver exe config
-		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Dell\\Desktop\\Tutorials\\Drivers\\chromedriver.exe");
+//		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Dell\\Desktop\\Tutorials\\Drivers\\chromedriver.exe");
 			
 		//Instansiation the WebDriver Instance
-		 driver = new ChromeDriver();
+//		 WebDriver driver = new ChromeDriver();
+		 driver = new ChromeDriver(options);
 		
 		//Demo E-commerce APP
-		driver.get("http://ec2-15-207-51-140.ap-south-1.compute.amazonaws.com/");
+		driver.get("file:///D:/Interview%20Prepration/Online_Fruits_And_Veggies_DEVOPS/index.html");
 		
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		byte[] screenshot = ts.getScreenshotAs(OutputType.BYTES);
@@ -119,13 +125,13 @@ public class FirstFeature_Stepdefs {
 	@Then ("^User should see success message$")
 	public void User_should_see_success_message(){
 		//System.out.println("User should see success message");
-		WebDriverWait wait = new WebDriverWait(driver, 15);
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h2[text()='Fruits and Veggies']")));
 		
 		System.out.println("Login Success");
 		
-		driver.close();
-		driver.quit();
+//		driver.close();
+//		driver.quit();
 	}
 	
 	@When ("User gives invalid credentials {string} as Username and {string} as Password")
@@ -146,7 +152,7 @@ public class FirstFeature_Stepdefs {
 	
 	@SuppressWarnings("deprecation")
 	@Then ("^User should see Error message$")
-	public void User_should_see_Error_smessage(){
+	public void User_should_see_Error_smessage() throws InterruptedException{
 		//System.out.println("User should see Error message");
 		
 		String Exp_Err_message ="Invalid username and password";
@@ -154,11 +160,11 @@ public class FirstFeature_Stepdefs {
 		String Actual_Err_message =driver.switchTo().alert().getText();
 		
 		Assert.assertTrue(Exp_Err_message.equals(Actual_Err_message));
-		
+		Thread.sleep(4000);
 		driver.switchTo().alert().accept();
-
-		driver.close();
-		driver.quit();
+		Thread.sleep(4000);
+//		driver.close();
+//		driver.quit();
 	}
 	
 	@When ("^User gives right Username and Password$")

@@ -5,7 +5,7 @@ Background:
 Given User lauches the App
 
 @ValidCred 
-Scenario: Vlaid crdentials
+Scenario: Valid crdentials
 When User gives right "Online_User" as Username and "Online_User" as Password
 Then User should see success message
 
